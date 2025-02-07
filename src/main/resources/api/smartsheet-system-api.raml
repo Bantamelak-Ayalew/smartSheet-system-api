@@ -1,0 +1,131 @@
+#%RAML 1.0
+title: Smartsheet System API
+baseUri: https://api.smartsheet.com/1.0
+protocols: [HTTP, HTTPS]
+mediaType: application/json
+version: v1.0
+
+
+securitySchemes:
+  bearerAuth:
+    description: |
+      This API supports Bearer token authentication.
+    type: OAuth 2.0
+    settings:
+      authorizationUri: https://auth.smartsheet.com/oauth/authorize
+      accessTokenUri: https://auth.smartsheet.com/oauth/token
+      scopes: []
+
+types:
+  ErrorResponse:
+    properties:
+      error:
+        properties:
+          code: integer
+          message: string
+          details: string
+
+  SmartsheetRow:
+    properties:
+      id: integer
+      name: string
+      version: integer
+
+  SmartsheetSheet:
+    properties:
+      data: SmartsheetRow[]
+
+# Smartsheet System API Endpoints
+
+/sheets:
+  get:
+    description: Retrieves a list of all sheets in the user's account.
+    securedBy: [bearerAuth]
+    responses:
+      200:
+        body:
+          application/json:
+            type: SmartsheetSheet
+      401:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Unauthorized access due to invalid or missing token.
+      403:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Forbidden access due to insufficient permissions.
+      500:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Internal server error.
+
+/sheets/{sheetId}:
+  uriParameters:
+    sheetId:
+      description: The unique identifier of the sheet.
+      type: integer
+  get:
+    description: Retrieves details of a specific sheet by its ID.
+    securedBy: [bearerAuth]
+    responses:
+      200:
+        body:
+          application/json:
+            type: SmartsheetRow
+      404:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Sheet not found.
+      401:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Unauthorized access due to invalid or missing token.
+      500:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Internal server error.
+
+/sheets/{sheetId}/rows:
+  uriParameters:
+    sheetId:
+      description: The unique identifier of the sheet.
+      type: integer
+  post:
+    description: Adds a new row to the specified sheet.
+    securedBy: [bearerAuth]
+    body:
+      application/json:
+        type: SmartsheetRow
+    responses:
+      201:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Row added successfully.
+      400:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Invalid request payload or data format.
+      404:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Sheet not found.
+      401:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Unauthorized access due to invalid or missing token.
+      500:
+        body:
+          application/json:
+            type: ErrorResponse
+        description: Internal server error.
+
