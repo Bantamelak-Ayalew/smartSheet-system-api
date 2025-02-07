@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="createSheetsID" doc:id="f79e2f9e-3483-4b0a-908a-2844148a8d14" >
+		<ee:transform doc:name="Transform Message">
+            <ee:variables>
+                <ee:set-variable variableName="sheetId">attributes.uriParams.'sheetId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+	</flow>
+	<flow name="getSheetID" doc:id="7f466e73-0962-465e-be49-84f3fe02e1b8" >
+		<ee:transform doc:name="Transform Message">
+            <ee:variables>
+                <ee:set-variable variableName="sheetId">attributes.uriParams.'sheetId'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+	</flow>
+	<flow name="getSheet" doc:id="a9a83512-c717-4546-9f76-22ea708cb8f6" >
+		<logger level="INFO" message="get:\sheets:smartsheet-system-api-config" />
+	</flow>
+</mule>

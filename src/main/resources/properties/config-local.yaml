@@ -1,0 +1,16 @@
+instanceId:
+  id: "1234141"
+  
+
+
+
+
+
+
+
+
+
+https:
+  port:"8082"
+http:
+  port: "8083"
